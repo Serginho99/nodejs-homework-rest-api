@@ -9,8 +9,8 @@ async function signUp(req, res) {
   if (user) {
     throw new Conflict(`User with ${email} already exist`);
   }
-  const avatarUrl = gravatar.url(email);
-  const newUser = new User({ email, subscription, avatarUrl });
+  const avatarURL = gravatar.url(email);
+  const newUser = new User({ email, subscription, avatarURL });
   newUser.setPassword(password);
   newUser.save();
   //   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -27,7 +27,7 @@ async function signUp(req, res) {
         email,
         password,
         subscription,
-        avatarUrl,
+        avatarURL,
       },
     },
   });
