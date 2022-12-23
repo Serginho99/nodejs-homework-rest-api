@@ -3,10 +3,15 @@ const { BadRequest } = require("http-errors");
 const { Contact } = require("../../models/contact");
 
 async function updateContact(req, res) {
+  const { _id } = req.user;
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const result = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: _id },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!result) {
     throw new BadRequest("missing fields");
   }
