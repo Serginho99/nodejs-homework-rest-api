@@ -17,21 +17,23 @@ const router = express.Router();
 
 router.get("/", auth, ctrlWrapper(ctrl.listContacts));
 
-router.get("/:contactId", isValidId, ctrlWrapper(ctrl.getContactById));
+router.get("/:contactId", auth, isValidId, ctrlWrapper(ctrl.getContactById));
 
 router.post("/", auth, validateMiddleware, ctrlWrapper(ctrl.addContact));
 
 router.patch(
   "/:contactId/favorite",
+  auth,
   isValidId,
   validation(schemas.updateFavoriteSchema),
   ctrlWrapper(ctrl.updateFavorite)
 );
 
-router.delete("/:contactId", isValidId, ctrlWrapper(ctrl.removeContact));
+router.delete("/:contactId", auth, isValidId, ctrlWrapper(ctrl.removeContact));
 
 router.put(
   "/:contactId",
+  auth,
   isValidId,
   validateMiddleware,
   ctrlWrapper(ctrl.updateContact)

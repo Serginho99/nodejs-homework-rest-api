@@ -1,5 +1,6 @@
 const { User } = require("../../models/user");
 const { Conflict } = require("http-errors");
+const gravatar = require("gravatar");
 // const bcrypt = require("bcryptjs");
 
 async function signUp(req, res) {
@@ -8,7 +9,8 @@ async function signUp(req, res) {
   if (user) {
     throw new Conflict(`User with ${email} already exist`);
   }
-  const newUser = new User({ email, subscription });
+  const avatarURL = gravatar.url(email);
+  const newUser = new User({ email, subscription, avatarURL });
   newUser.setPassword(password);
   newUser.save();
   //   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -25,6 +27,7 @@ async function signUp(req, res) {
         email,
         password,
         subscription,
+        avatarURL,
       },
     },
   });
